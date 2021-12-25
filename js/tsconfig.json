@@ -1,0 +1,13 @@
+{
+    "include": ["src/index.ts", "src/**/*.ts"],
+    "compilerOptions": {
+        "allowJs": true,
+        "skipLibCheck": true,
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "lib": ["ESNext"],
+        "target": "ES6",
+        "types": ["node", "@sa-mp/node"],
+        "module": "CommonJS"
+    }
+}

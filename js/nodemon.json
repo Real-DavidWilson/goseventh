@@ -1,0 +1,4 @@
+{
+    "exec": "tsc",
+    "ext": "json, ts"
+}
