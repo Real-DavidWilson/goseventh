@@ -3,7 +3,7 @@ import socket from "../socket";
 
 interface CallFunctionData {
 	type: "callFunction";
-	name: string;
+	functionName: string;
 	params?: any[];
 	paramsType?: string;
 	uid?: string;
@@ -12,7 +12,7 @@ interface CallFunctionData {
 
 interface SendFunctionData {
 	type: "functionReturn";
-	name: string;
+	functionName: string;
 	data: any[] | any;
 	uid?: string;
 }
@@ -23,7 +23,6 @@ socket.on("message", (msg, rinfo) => {
 			msg.toString()
 		) as CallFunctionData;
 		if (type !== "callFunction") return;
-		console.log("callfunction");
 		callFunctionsHandler(data, rinfo);
 	} catch {}
 });
@@ -33,9 +32,8 @@ function callFunctionsHandler(
 	rinfo: RemoteInfo
 ) {
 	if (typeof data.paramsType !== "string") data.paramsType = "";
-	if (typeof data.name !== "string" || !data.name) return;
+	if (typeof data.functionName !== "string" || !data.functionName) return;
 	if (typeof data.awaitReturn !== "boolean") data.awaitReturn = true;
-
 	const isFloatFunction = data.paramsType
 		.split("")
 		.map((p) => p === "f")
@@ -44,18 +42,17 @@ function callFunctionsHandler(
 
 	if (isFloatFunction)
 		dataNative = samp.callNativeFloat(
-			data.name,
+			data.functionName,
 			data.paramsType,
 			...data.params
 		);
-	else dataNative = samp.callNative(data.name, data.paramsType, ...data.params);
+	else dataNative = samp.callNative(data.functionName, data.paramsType, ...data.params);
 
-    console.log("await return?", data.awaitReturn, "Data:", dataNative);
     if (data.awaitReturn) {
         console.log("sending data....")
 		socket.send(
 			JSON.stringify({
-				name: data.name,
+				functionName: data.functionName,
 				uid: data.uid,
 				type: "functionReturn",
 				data: dataNative,
