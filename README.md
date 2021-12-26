@@ -80,7 +80,7 @@ Para chamar uma função do samp pelo udp você precisa enviar um json com os pa
 |Chave|Tipo|Obrigatório|
 |:-----:|:--:|:----------:|
 |`type`|string|sim|
-|`name`|string|sim|
+|`functionName`|string|sim|
 |`awaitReturn`|boolean|não|
 |`paramsType`|string|não|
 |`params`|array|não|
@@ -88,7 +88,7 @@ Para chamar uma função do samp pelo udp você precisa enviar um json com os pa
 
 `type` deve ser o nome do tipo de operação que você deseja, nesse caso o valor dessa variável deve ser `"callFunction"`.
 
-`name` deve ser o nome exato da função que você deseja chamar, pois o nome da função é **case sensitive**, você deve passar o nome de uma função existente para que não haja erros.
+`functionName` deve ser o nome exato da função que você deseja chamar, pois o nome da função é **case sensitive**, você deve passar o nome de uma função existente para que não haja erros.
 
 `awaitReturn` deve ser um booleano **true** ou **false**, caso seja `true` o node chamará a função e lhe devolverá o retorno da função em uma chamada udp, caso você não envie essa variável no json ele será definido como `true` por padrão, para performance você deve deixar `"awaitReturn": false` quando vai usar uma função `set`.
 
@@ -134,7 +134,7 @@ Logo após a chamada da função o node responderá a função retornando um jso
 ~~~json
 {
     "type": "functionReturn",
-    "name": "GetPlayerName",
+    "functionName": "GetPlayerName",
     "data": "john_doe",
     "uid": "321msd22msk1_213sz",
 }
@@ -142,7 +142,7 @@ Logo após a chamada da função o node responderá a função retornando um jso
 
 `type` serve para você diferenciar qual tipo de resposta está vindo do node como foi explicado mais acima.
 
-`name` é o nome da função que foi executada pelo samp_node.
+`functionName` é o nome da função que foi executada pelo samp_node.
 
 `data` é o dado de retorno da função que você chamou, esse dado pode ser um **array**, **string**, **number** ou **booleano**.
 
